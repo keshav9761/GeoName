@@ -1,5 +1,5 @@
 const Express = require('express')
-const dotenv = require('dotenv').config()
+const dotenv = require('dotenv')
 const cors = require('cors')
 const mongoose = require('mongoose')
 const Routes = require('./Routes/geoRoutes.js')
@@ -16,7 +16,7 @@ function initialization() {
 
 const configCors = () => {
     app.use(cors())
-    // dotenv.config()
+    dotenv.config()
 }
 
 const configParser = () => {
@@ -25,7 +25,9 @@ const configParser = () => {
 }
 
 const configDatabase = () => {
-    mongoose.connect('mongodb+srv://Geo_Location:%40%2312345@cluster0.raci8.mongodb.net/myDatabase?retryWrites=true&w=majority&appName=Cluster0').then(() => { console.log("MongoDB connected successfully!") }).catch((err) => { console.log("ERROR", err) })
+    mongoose.connect(process.env.MONGODB_URI)
+    .then(() => { console.log("MongoDB connected successfully!") })
+    .catch((err) => { console.log("ERROR", err) })
 }
 configRoutes = () => {
     app.use('/api/v1', Routes)
